@@ -1,0 +1,119 @@
+@use './variables' as *;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-family;
+  color: $text-primary;
+  background-color: $background-color;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $primary-dark;
+  }
+}
+
+button {
+  font-family: $font-family;
+  cursor: pointer;
+  border: none;
+  background: none;
+  
+  &:focus {
+    outline: none;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// Scrollbar Styles
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: $surface-color;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $border-color;
+  border-radius: 6px;
+  
+  &:hover {
+    background: $text-tertiary;
+  }
+}
+
+// Selection
+::selection {
+  background: rgba($primary-color, 0.3);
+  color: $text-primary;
+}
+
+::-moz-selection {
+  background: rgba($primary-color, 0.3);
+  color: $text-primary;
+}
+
+// Focus Visible
+*:focus-visible {
+  outline: 2px solid $primary-color;
+  outline-offset: 2px;
+}
+
+// Utility Classes
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 20px;
+
+  @media (max-width: $breakpoint-tablet) {
+    padding: 0 16px;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: 0 12px;
+  }
+}
