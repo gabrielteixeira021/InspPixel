@@ -45,7 +45,12 @@ export const useImageStore = defineStore('images', {
 
         console.log('✅ API Response received:', response.data.length, 'images')
 
-        const newImages = response.data
+        // Otimizar URLs das imagens para carregar mais rápido
+        const newImages = response.data.map(img => ({
+          ...img,
+          download_url: `https://picsum.photos/id/${img.id}/600/400`
+        }))
+        
         this.cache.set(cacheKey, newImages)
         this.images = [...this.images, ...newImages]
         

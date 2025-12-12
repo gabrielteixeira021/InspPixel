@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 const props = defineProps({
   image: {
@@ -12,10 +12,8 @@ const isLoaded = ref(false)
 const hasError = ref(false)
 
 const aspectRatio = computed(() => {
-  if (props.image.width && props.image.height) {
-    return (props.image.height / props.image.width) * 100
-  }
-  return 100 // fallback para quadrado
+  // Usar proporção 2:3 (400/600) para as imagens otimizadas
+  return 66.67
 })
 
 const handleImageLoad = () => {
@@ -26,21 +24,26 @@ const handleImageError = () => {
   hasError.value = true
   isLoaded.value = true
 }
+
+onMounted(() => {
+  // Força o carregamento da imagem
+  const img = new Image()
+  img.onload = handleImageLoad
+  img.onerror = handleImageError
+  img.src = props.image.download_url
+})
 </script>
 
 <template>
   <div class="image-card" @click="$emit('click')">
     <div class="image-wrapper" :style="{ paddingBottom: `${aspectRatio}%` }">
-      <div v-if="!isLoaded" class="skeleton"></div>
+      <div v-if="!isLoaded && !hasError" class="skeleton"></div>
       
       <img
-        v-show="isLoaded && !hasError"
+        v-if="isLoaded && !hasError"
         :src="image.download_url"
         :alt="`Foto por ${image.author}`"
         class="image"
-        @load="handleImageLoad"
-        @error="handleImageError"
-        loading="lazy"
       />
 
       <div v-if="hasError" class="error-placeholder">
